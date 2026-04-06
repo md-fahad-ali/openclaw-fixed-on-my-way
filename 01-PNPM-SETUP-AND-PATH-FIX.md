@@ -1,41 +1,28 @@
-# Part 01: Pnpm Setup & Path Fix
-**Issue:** OpenClaw standard installer uses `npm`, but we require `pnpm`.
-**Fix:** Modified installer and fixed binary path.
+# 🛠 Skill 01: PNPM Setup & Path Fix (Universal)
 
-## 1. The Installation Problem
-The original `install.sh` fails because:
-1.  It runs `npm install -g`.
-2.  Pnpm global packages are isolated (not in `node_modules` root).
-3.  The `openclaw` binary is missing from the system PATH.
+**Scope:** This skill fixes the **entire OpenClaw installation** so it works with `pnpm` instead of `npm`.
+**Problem:** `command not found: openclaw` and npm dependency errors.
 
-## 2. The Wrapper Script Solution
-Since `pnpm add -g` installs to `~/.local/share/pnpm/global/5/node_modules/.bin`, the binary is not found by default.
+## 📌 Why this exists
+Standard `install.sh` fails because:
+1.  It uses `npm`, which we are replacing with `pnpm`.
+2.  `pnpm` isolates binaries, so `openclaw` disappears from the PATH.
 
-**Fix:** Create a wrapper script at `~/.local/bin/openclaw`.
+## 🔧 The Fix Steps
+
+### Step 1: Wrapper Script
+We created a custom launcher at `~/.local/bin/openclaw` so the system can find the binary.
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
-# Point to the pnpm global binary
 BIN_DIR="/home/fahad/.local/share/pnpm/global/5/node_modules/.bin"
-# Add pnpm's pnpm directory to NODE_PATH so OpenClaw can find its own libs
 export NODE_PATH="/home/fahad/.local/share/pnpm/global/5/node_modules/.pnpm/node_modules"
 exec "$BIN_DIR/openclaw" "$@"
 ```
-**Permissions:** `chmod +x ~/.local/bin/openclaw`
 
-## 3. Pnpm Configuration
-To fix "Module not found" errors for bundled plugins (like Discord/Slack), add a `.npmrc` file to the global store:
-
-**File:** `~/.local/share/pnpm/global/5/.npmrc`
-```ini
-shamefully-hoist=true
-auto-install-peers=true
-```
-*Reason:* OpenClaw expects a flat `node_modules` structure (like npm). `shamefully-hoist` forces pnpm to flatten the dependencies so bundled plugins can find them.
-
-## 4. Installer Modification
-If using `install.sh`, replace all instances of `npm install -g` with `pnpm add -g`.
+### Step 2: Pnpm Hoisting
+We added `.npmrc` with `shamefully-hoist=true` to fix "Module Not Found" errors for **ALL** plugins.
 
 ---
-*End of Part 01*
+*End of Skill 01*

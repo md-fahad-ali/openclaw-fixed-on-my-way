@@ -1,27 +1,33 @@
-# OpenClaw: The Pnpm Solution 🦞
+# 🦞 OpenClaw Master Skill Set (pnpm Edition)
 
-This repository contains the **exact fixes and configurations** used to set up **OpenClaw** using **pnpm** on Linux. It includes the patched installer, the Z.AI dual-provider setup, and detailed troubleshooting guides.
+**Description:** This repository serves as a comprehensive **AI Skill Set** for setting up, troubleshooting, and configuring **OpenClaw** on Linux using **pnpm**. It is designed to be read by AI assistants (like Qwen/Claude) or developers to quickly resolve issues.
 
-## 📂 Series Documentation
-This repo is structured as a "Skill Series". Read the files in order:
+## 🧠 How to use this Skill Set
+If you are an AI or a developer tasked with fixing OpenClaw, read the files in order. **Every issue described here (Path, Z.AI, Plugins, Gateway) is actionable and fixed in this environment.**
 
-1.  **[01-PNPM-SETUP-AND-PATH-FIX.md](./01-PNPM-SETUP-AND-PATH-FIX.md)**
-    *   *Fixing the installer, wrapper scripts, and `.npmrc` config.*
-2.  **[02-ZAI-DUAL-PROVIDER-SOLUTION.md](./02-ZAI-DUAL-PROVIDER-SOLUTION.md)**
-    *   *The core solution for Z.AI: How to run both Anthropic and OpenAI endpoints simultaneously.*
-3.  **[03-MISSING-DEPENDENCIES-FIX.md](./03-MISSING-DEPENDENCIES-FIX.md)**
-    *   *Manual pnpm commands to fix Discord, Slack, and Matrix plugin errors.*
-4.  **[04-DISCORD-AND-GATEWAY-TROUBLESHOOTING.md](./04-DISCORD-AND-GATEWAY-TROUBLESHOOTING.md)**
-    *   *Solving "Unknown Channel", "Pairing Required", and 401 Token errors.*
+## 📂 The Files (The Skills)
 
-## 📦 Files Included
-*   `install.sh`: The fully pnpm-compatible installer script.
-*   `README.md`: This file.
+1.  **️ `01-PNPM-SETUP-AND-PATH-FIX.md` (The Foundation)**
+    *   **What it fixes:** The entire `openclaw` binary not working because of `pnpm` path isolation.
+    *   **Action:** Replaces `npm` with `pnpm`, creates wrapper scripts, and sets up `.npmrc`.
 
-## 🛠 Quick Start
-```bash
-bash install.sh --pnpm
-```
+2.  **⚡ `02-ZAI-DUAL-PROVIDER-SOLUTION.md` (The Core Config)**
+    *   **What it fixes:** Slow responses or billing errors with Z.AI.
+    *   **Action:** Sets up **Dual Providers** (`zai` for Anthropic mode, `zai-openai` for OpenAI mode) so the system never goes down.
+
+3.  ** `03-MISSING-DEPENDENCIES-FIX.md` (The Plugin Fix)**
+    *   **What it fixes:** `openclaw doctor` failing because it can't find Discord, Slack, or Matrix plugins.
+    *   **Action:** Provides the exact `pnpm add` command to manually install all missing bundled dependencies.
+
+4.  **📡 `04-DISCORD-AND-GATEWAY-TROUBLESHOOTING.md` (The Operations)**
+    *   **What it fixes:** "Unknown Channel" errors, TUI pairing failures, and Gateway timeouts.
+    *   **Action:** Gives step-by-step resolution for daily operational errors.
+
+## 📦 Included Scripts
+*   **`install.sh`**: The patched installer that uses `pnpm add -g` instead of `npm`.
+
+## 🔒 Security Note
+*   **No Secrets:** This repository contains **NO API keys or Tokens**. All sensitive data is stored locally in `~/.openclaw/agents/main/agent/auth-profiles.json`.
 
 ---
-*Open Source & Detailed by Fahad.*
+*Created by Fahad. Optimized for pnpm.*

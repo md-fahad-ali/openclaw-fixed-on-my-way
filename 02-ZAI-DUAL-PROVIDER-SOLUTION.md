@@ -1,53 +1,17 @@
-# Part 02: Z.AI Dual Provider Solution
-**Issue:** Z.AI offers two endpoints. One is slow (Anthropic wrapper), one is fast (OpenAI native).
-**Fix:** Configure BOTH in `openclaw.json` to allow switching.
+# ⚡ Skill 02: Z.AI Dual Provider Solution (Model Config)
 
-## 1. The Problem
-Z.AI's API has two endpoints:
-1.  **Anthropic Endpoint:** `https://api.z.ai/api/anthropic` (Slow, acts as a proxy).
-2.  **OpenAI Endpoint:** `https://api.z.ai/api/coding/paas/v4` (Fast, native support for GLM models).
+**Scope:** This skill fixes **slow responses** and **billing errors** by configuring two API endpoints for Z.AI.
+**Problem:** Single provider setup is fragile; if one endpoint is slow, the bot hangs.
 
-By default, the installer might only configure one, or you might get stuck with the slow one.
+## 📌 The Solution
+We configured **TWO** providers in `openclaw.json`:
 
-## 2. The Solution (Dual Config)
-Edit `~/.openclaw/openclaw.json`. Add **two** providers under `models.providers`.
+1.  **`zai` (Anthropic Mode):** For testing compatibility.
+2.  **`zai-openai` (OpenAI Mode):** For **FAST** production use (Native GLM support).
 
-### Provider A: `zai` (Anthropic Mode)
-```json
-"zai": {
-  "baseUrl": "https://api.z.ai/api/anthropic",
-  "api": "anthropic-messages",
-  "models": [
-    { "id": "glm-4.7-flash", "name": "GLM-4.7 Flash (Anthropic)", "contextWindow": 200000, "maxTokens": 131072 }
-  ]
-}
-```
-
-### Provider B: `zai-openai` (OpenAI Mode - Recommended)
-```json
-"zai-openai": {
-  "baseUrl": "https://api.z.ai/api/coding/paas/v4",
-  "api": "openai-completions",
-  "models": [
-    { "id": "glm-5", "name": "GLM-5 (Fast)", "contextWindow": 202800, "maxTokens": 131100 },
-    { "id": "glm-4.7-flash", "name": "GLM-4.7 Flash (Fast)", "contextWindow": 200000, "maxTokens": 131072 }
-  ]
-}
-```
-
-## 3. Updating Fallbacks
-Ensure the fallbacks list in `agents.defaults.model` includes both:
-```json
-"fallbacks": [
-  "zai-openai/glm-5",
-  "zai-openai/glm-4.7-flash",
-  "zai/glm-4.7-flash"
-]
-```
-
-## 4. How to Switch
-*   **For Speed:** Set primary model to `zai-openai/glm-5`.
-*   **For Testing Anthropic Compatibility:** Set primary model to `zai/glm-4.7-flash`.
+## 🔧 The Config
+See `openclaw.json` -> `models.providers`.
+*   **Action:** If the bot is slow, switch the primary model to `zai-openai/glm-5`.
 
 ---
-*End of Part 02*
+*End of Skill 02*
